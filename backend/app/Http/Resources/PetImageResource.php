@@ -16,7 +16,6 @@ class PetImageResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'pet_id' => $this->pet_id,
             'path' => $this->path,
             'url' => asset('storage/' . $this->path),
         ];

@@ -25,7 +25,6 @@ class PetResource extends JsonResource
             'updated_at' => $this->updated_at,
             'user' => $this->whenLoaded('user', function () {
                 return [
-                    'id' => $this->user->id,
                     'name' => $this->user->name,
                     'avatar' => $this->user->avatar,
                 ];

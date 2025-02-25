@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string("type");
             $table->text("description");
             $table->string("location");
-            $table->enum('status', ['pending_approval', 'active', 'adopted'])->default('pending_approval');
+            $table->enum('status', ['pending_approval', 'active', 'adopted', 'rejected'])->default('pending_approval');
             $table->timestamps();
         });
     }

@@ -10,8 +10,7 @@ class StorePetImageRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        $pet = Pet::findOrFail($this->route("pet"));
-        return $pet->user_id === Auth::id();
+        return true;
     }
 
     public function rules(): array
