@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdoptionRequestController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\PetImageController;
 use App\Http\Controllers\UserController;
@@ -57,4 +58,13 @@ Route::middleware('auth:sanctum')->group(function () {
 // Adoption Request
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('adoption-requests', AdoptionRequestController::class)->except(['store']);
+});
+
+// Notifications
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get("/notifications", [NotificationController::class, "index"])->name('notifications.index');
+    Route::put("/notifications/{notification}", [NotificationController::class, "markAsRead"])
+        ->where('notification', '[0-9]+')
+        ->name('notifications.mark-as-read');
+    Route::put("/notifications/read-all", [NotificationController::class, "markAllAsRead"])->name('notifications.mark-all-as-read');
 });

@@ -7,6 +7,8 @@ use App\Http\Requests\AdoptionRequest\UpdateAdoptionRequest;
 use App\Http\Resources\AdoptionRequestResource;
 use App\Models\AdoptionRequest;
 use App\Models\Pet;
+use App\Notifications\AdoptionRequestReceived;
+use App\Notifications\AdoptionRequestStatusChanged;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -72,6 +74,9 @@ class AdoptionRequestController extends Controller
             'status' => AdoptionRequest::STATUS_PENDING
         ]);
 
+        $petOwner = $pet->user;
+        $petOwner->notify(new AdoptionRequestReceived($adoptionRequest));
+
         return new AdoptionRequestResource($adoptionRequest->load(['pet', 'pet.images', 'user']));
     }
 
@@ -103,6 +108,8 @@ class AdoptionRequestController extends Controller
                     'status' => AdoptionRequest::STATUS_REJECTED
                 ]);
         }
+
+        $adoptionRequest->user->notify(new AdoptionRequestStatusChanged($adoptionRequest));
 
         return new AdoptionRequestResource($adoptionRequest->load(['pet', 'pet.images', 'user']));
     }
